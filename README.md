@@ -3,7 +3,7 @@
 ## 🙋 About This Project
 An end-to-end data analytics project simulating a Netflix-style streaming business: synthetic data generation in **Python**, a relational data model in **SQL Server**, and an interactive **Power BI** dashboard tracking subscribers, revenue, and content performance across US regions. Generated a realistic streaming-service dataset, model it properly in a relational database with data-integrity safeguards, and turn it into a report a regional or content lead could actually use.
 
-🔗 **Live Dashboard:** [See dashboard here](https://app.powerbi.com/view?r=eyJrIjoiYjZiMzVhZmUtNmNiOS00YWEwLWI5ZTItZGUzNTMzNTc3ZmY0IiwidCI6IjQ4MjkzMjgyLTgzMmQtNGQwYi05ZTBmLTVmMmFmYTg5YTFlNCIsImMiOjJ9)
+🔗 **Live Dashboard:** [Live Dashboard](https://app.powerbi.com/view?r=eyJrIjoiYjZiMzVhZmUtNmNiOS00YWEwLWI5ZTItZGUzNTMzNTc3ZmY0IiwidCI6IjQ4MjkzMjgyLTgzMmQtNGQwYi05ZTBmLTVmMmFmYTg5YTFlNCIsImMiOjJ9)
 
 ---
 
