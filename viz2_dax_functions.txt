@@ -1,0 +1,11 @@
+DEFINE
+    FUNCTION udf.change_pct = (measure_base:MEASUREREF) =>
+VAR last_year =  CALCULATE(measure_base,SAMEPERIODLASTYEAR(dim_calendar[dates]))
+RETURN
+DIVIDE(measure_base-last_year,last_year,BLANK())
+
+    FUNCTION udf.revenue = (price_column:COLUMNREF,start_column:COLUMNREF) =>
+CALCULATE(SUM(price_column),USERELATIONSHIP(start_column,dim_calendar[idx]))
+
+    FUNCTION udf.color = (base_measure:MEASUREREF) =>
+SWITCH(TRUE(),base_measure < 0,"#ff6467",base_measure > 0, "#4ADD80")

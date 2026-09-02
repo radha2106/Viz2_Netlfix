@@ -1,0 +1,121 @@
+DEFINE
+    MEASURE 'Medidas'[all_releases] = COUNTROWS(ft_programs)
+    MEASURE 'Medidas'[all_total_users] = //Variables of total users per region
+    VAR north = [north_users]
+    VAR west = [west_users]
+    VAR south = [south_users]
+    Var central = [central_users]
+
+//Sum of total users per all regions
+RETURN
+    north+west+south+central
+    MEASURE 'Medidas'[central_exc_rates] = //Total Excellent Rates from Central region
+CALCULATE(COUNTROWS(ft_central_views),ft_central_views[program_rating] = 4)
+    MEASURE 'Medidas'[Label] = 0
+    MEASURE 'Medidas'[Label_Ctg] = //Selection of Categories
+SELECTEDVALUE(dim_categories[categories])
+    MEASURE 'Medidas'[central_users] = //Total Users from Central region
+DISTINCTCOUNT(ft_central_users[users])
+    MEASURE 'Medidas'[central_revenue] = //Total Revenue from Central region
+udf.revenue(ft_central_users[total_price_plan],ft_central_users[plan_start])
+    MEASURE 'Medidas'[all_total_revenue] = //Variables of total revenue per region
+    VAR north = [north_revenue]
+    VAR west = [west_revenue]
+    VAR south = [south_revenue]
+    Var central = [central_revenue]
+
+//Sum of total revenue per all regions
+RETURN
+    north+west+south+central
+    MEASURE 'Medidas'[central_views] = //Total Views from central region
+COUNTROWS(ft_central_views)
+    MEASURE 'Medidas'[all_total_views] = //Variables of total Views per region
+    VAR north = [north_views]
+    VAR west = [west_views]
+    VAR south = [south_views]
+    Var central = [central_views]
+
+//Sum of total Views per all regions
+RETURN
+    north+west+south+central
+    MEASURE 'Medidas'[all_total_exc_rates] = //Variables of total Excellent Rates per region
+    VAR north = [north_exc_rates]
+    VAR west = [west_exc_rates]
+    VAR south = [south_exc_rates]
+    Var central = [central_exc_rates]
+
+//Sum of total Excellent Rates per all regions
+RETURN
+    north+west+south+central
+    MEASURE 'Medidas'[ly_central_user_pct] = udf.change_pct([central_users])
+    MEASURE 'Medidas'[ly_central_revenue_pct] = udf.change_pct([central_revenue])
+    MEASURE 'Medidas'[ly_central_view_pct] = udf.change_pct([central_views])
+    MEASURE 'Medidas'[central_title] = IF(ISFILTERED(dim_states[state_name]),
+    "Daily activities on " & SELECTEDVALUE(dim_states[state_name]), 
+    "Daily activities on all central states")
+    MEASURE 'Medidas'[south_title] = IF(ISFILTERED(dim_states[state_name]),
+    "Daily activities on " & SELECTEDVALUE(dim_states[state_name]), 
+    "Daily activities on all south states")
+    MEASURE 'Medidas'[north_title] = IF(ISFILTERED(dim_states[state_name]),
+    "Daily activities on " & SELECTEDVALUE(dim_states[state_name]), 
+    "Daily activities on all north states")
+    MEASURE 'Medidas'[west_title] = IF(ISFILTERED(dim_states[state_name]),
+    "Daily activities on " & SELECTEDVALUE(dim_states[state_name]), 
+    "Daily activities on all west states")
+    MEASURE 'Medidas'[north_views] = //Total Views from north region
+COUNTROWS(ft_north_views)
+    MEASURE 'Medidas'[west_views] = //Total Views from west region
+COUNTROWS(ft_west_views)
+    MEASURE 'Medidas'[south_views] = //Total Views from south region
+COUNTROWS(ft_south_views)
+    MEASURE 'Medidas'[south_users] = //Total Users from south region
+DISTINCTCOUNT(ft_south_users[users])
+    MEASURE 'Medidas'[north_users] = //Total Users from north region
+DISTINCTCOUNT(ft_north_users[users])
+    MEASURE 'Medidas'[west_users] = //Total Users from west region
+DISTINCTCOUNT(ft_west_users[users])
+    MEASURE 'Medidas'[north_revenue] = //Total Revenue from north region
+udf.revenue(ft_north_users[total_price_plan],ft_north_users[plan_start])
+    MEASURE 'Medidas'[south_revenue] = //Total Revenue from south region
+udf.revenue(ft_south_users[total_price_plan],ft_south_users[plan_start])
+    MEASURE 'Medidas'[west_revenue] = //Total Revenue from west region
+udf.revenue(ft_west_users[total_price_plan],ft_west_users[plan_start])
+    MEASURE 'Medidas'[south_exc_rates] = //Total Excellent Rates from south region
+CALCULATE(COUNTROWS(ft_south_views),ft_south_views[program_rating] = 4)
+    MEASURE 'Medidas'[north_exc_rates] = //Total Excellent Rates from north region
+CALCULATE(COUNTROWS(ft_north_views),ft_north_views[program_rating] = 4)
+    MEASURE 'Medidas'[west_exc_rates] = //Total Excellent Rates from west region
+CALCULATE(COUNTROWS(ft_west_views),ft_west_views[program_rating] = 4)
+    MEASURE 'Medidas'[last_year_title] = "Last year change"
+    MEASURE 'Medidas'[ly_west_revenue_pct] = udf.change_pct([west_revenue])
+    MEASURE 'Medidas'[ly_west_user_pct] = udf.change_pct([west_users])
+    MEASURE 'Medidas'[ly_west_view_pct] = udf.change_pct([west_views])
+    MEASURE 'Medidas'[ly_south_revenue_pct] = udf.change_pct([south_revenue])
+    MEASURE 'Medidas'[ly_south_user_pct] = udf.change_pct([south_users])
+    MEASURE 'Medidas'[ly_south_view_pct] = udf.change_pct([south_views])
+    MEASURE 'Medidas'[ly_north_view_pct] = udf.change_pct([north_views])
+    MEASURE 'Medidas'[ly_north_user_pct] = udf.change_pct([north_users])
+    MEASURE 'Medidas'[ly_north_revenue_pct] = udf.change_pct([north_revenue])
+    MEASURE 'Medidas'[ly_all_revenue_pct] = udf.change_pct([all_total_revenue])
+    MEASURE 'Medidas'[ly_all_users_pct] = udf.change_pct([all_total_users])
+    MEASURE 'Medidas'[ly_all_views_pct] = udf.change_pct([all_total_views])
+    MEASURE 'Medidas'[ly_all_exec_rates_pct] = udf.change_pct([all_total_exc_rates])
+    MEASURE 'Medidas'[ly_all_release_pct] = udf.change_pct([all_releases])
+    MEASURE 'Medidas'[ly_revenue] = CALCULATE([all_total_revenue],SAMEPERIODLASTYEAR(dim_calendar[dates]))
+    MEASURE 'Medidas'[central_revenue_color] = udf.color([ly_central_revenue_pct])
+    MEASURE 'Medidas'[central_user_color] = udf.color([ly_central_user_pct])
+    MEASURE 'Medidas'[central_views_color] = udf.color([ly_central_view_pct])
+    MEASURE 'Medidas'[north_revenue_color] = udf.color([ly_north_revenue_pct])
+    MEASURE 'Medidas'[north_user_color] = udf.color([ly_north_user_pct])
+    MEASURE 'Medidas'[north_view_color] = udf.color([ly_north_view_pct])
+    MEASURE 'Medidas'[west_revenue_color] = udf.color([ly_west_revenue_pct])
+    MEASURE 'Medidas'[west_user_color] = udf.color([ly_west_user_pct])
+    MEASURE 'Medidas'[west_view_color] = udf.color([ly_west_view_pct])
+    MEASURE 'Medidas'[south_revenue_color] = udf.color([ly_south_revenue_pct])
+    MEASURE 'Medidas'[south_user_color] = udf.color([ly_south_user_pct])
+    MEASURE 'Medidas'[south_view_color] = udf.color([ly_south_view_pct])
+    MEASURE 'Medidas'[all_revenue_color] = udf.color([ly_all_revenue_pct])
+    MEASURE 'Medidas'[all_user_color] = udf.color([ly_all_users_pct])
+    MEASURE 'Medidas'[all_view_color] = udf.color([ly_all_views_pct])
+    MEASURE 'Medidas'[all_exec_rates_color] = udf.color([ly_all_exec_rates_pct])
+    MEASURE 'Medidas'[all_releases_color] = udf.color([ly_all_release_pct])
